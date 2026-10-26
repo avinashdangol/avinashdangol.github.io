@@ -3,115 +3,222 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Portfolio of Avinash Dangol, junior QA tester in Warsaw, Poland.">
-<title>Avinash Dangol Portfolio</title>
+<meta name="description" content="Avinash Dangol: junior QA tester in Warsaw, Poland. I build websites and apps with AI, then test them properly.">
+<title>Avinash Dangol · QA Tester</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: single column "test report" — each project is a case file with what was built and what was checked */
+/* Layout: sticky nav, split hero (intro + live "test run" console), then case-file sections that reveal on scroll */
 :root{
   --bg:#F5F6F8; --surface:#FFFFFF; --ink:#141B2D; --muted:#5A6275; --line:#DDE1E8;
   --accent:#B8233A; --accent-soft:#F7E3E6; --pass:#1F7A4D; --pass-soft:#E2F2E9; --learn:#8A5A00; --learn-soft:#FBF0D9;
-  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-  --body:"Source Sans 3", "Segoe UI", system-ui, sans-serif;
-  --mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+  --console:#141B2D; --console-ink:#D7DCE8; --console-dim:#7D869C;
+  --nav:rgba(245,246,248,.82);
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+@media (prefers-color-scheme: dark){:root{
   --bg:#0F1320; --surface:#171C2C; --ink:#E9ECF3; --muted:#9AA2B5; --line:#2A3146;
-  --accent:#F0657A; --accent-soft:#3A1C24; --pass:#5FD39A; --pass-soft:#163326; --learn:#F2C46B; --learn-soft:#3A2E14; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#0F1320; --surface:#171C2C; --ink:#E9ECF3; --muted:#9AA2B5; --line:#2A3146;
-  --accent:#F0657A; --accent-soft:#3A1C24; --pass:#5FD39A; --pass-soft:#163326; --learn:#F2C46B; --learn-soft:#3A2E14; color-scheme:dark}
+  --accent:#F0657A; --accent-soft:#3A1C24; --pass:#5FD39A; --pass-soft:#163326; --learn:#F2C46B; --learn-soft:#3A2E14;
+  --console:#0A0D17; --console-ink:#D7DCE8; --console-dim:#6B7489; --nav:rgba(15,19,32,.82); color-scheme:dark}}
 
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6}
-.wrap{max-width:880px;margin:0 auto;padding-block:48px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:56px}
-h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
-h1{font-size:clamp(2.4rem,7vw,4rem);font-weight:800;letter-spacing:-.02em}
-h2{font-size:1.6rem;font-weight:800}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;overflow-x:hidden}
+img{max-width:100%}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.12}
+h1{font-size:clamp(2.6rem,7.5vw,4.6rem);font-weight:800;letter-spacing:-.025em}
+h2{font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;letter-spacing:-.01em}
 h3{font-size:1.25rem;font-weight:600}
 p{margin:0;max-width:65ch}
 a{color:var(--accent)}
-a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
 .label{font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.gutter{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1040px;margin:0 auto}
+
+/* Scroll progress */
+.progress{position:fixed;top:0;left:0;height:3px;width:100%;background:var(--accent);transform-origin:0 50%;transform:scaleX(0);z-index:30}
+
+/* Nav */
+nav{position:sticky;top:0;z-index:20;background:var(--nav);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
+.brand{font-family:var(--display);font-weight:800;font-size:1.15rem;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.brand span{color:var(--accent)}
+.navlinks{display:flex;gap:22px}
+.navlinks a{color:var(--muted);text-decoration:none;font-weight:600;font-size:.95rem;position:relative}
+.navlinks a::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .25s}
+.navlinks a:hover{color:var(--ink)}
+.navlinks a:hover::after,.navlinks a.active::after{transform:scaleX(1)}
+.navlinks a.active{color:var(--ink)}
+@media (max-width:640px){.navlinks{gap:14px}.navlinks a{font-size:.85rem}.navlinks .hide-sm{display:none}}
 
 /* Hero */
-.hero{display:flex;flex-direction:column;gap:18px}
-.hero .role{font-family:var(--mono);font-size:.95rem;color:var(--accent);font-weight:600}
-.hero p.lead{font-size:1.2rem;color:var(--ink)}
-.hero h1 span{color:var(--accent)}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding-block:72px 56px}
+.hero-text{display:flex;flex-direction:column;gap:20px;min-width:0}
+.status{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.8rem;color:var(--pass);background:var(--pass-soft);padding:5px 12px;border-radius:999px;width:fit-content}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--pass);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--pass) 60%,transparent)}70%{box-shadow:0 0 0 8px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.hero h1 .dot{color:var(--accent)}
+.typed{font-family:var(--mono);font-size:clamp(1rem,2.4vw,1.2rem);color:var(--accent);font-weight:600;min-height:1.6em}
+.typed .caret{display:inline-block;width:.6ch;background:var(--accent);margin-left:2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.lead{font-size:1.2rem}
+.meta{display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--muted);font-size:.95rem}
 .contact{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 .95rem var(--body);text-decoration:none;cursor:pointer}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 .95rem var(--body);text-decoration:none;cursor:pointer;transition:transform .2s,box-shadow .2s,border-color .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px -8px rgba(20,27,45,.35);border-color:var(--ink)}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
-.email{font-family:var(--mono);font-size:.9rem;user-select:all}
-.meta{display:flex;flex-wrap:wrap;gap:6px 20px;color:var(--muted);font-size:.95rem}
+.btn.primary:hover{border-color:var(--accent)}
+
+/* Test-run console */
+.console{background:var(--console);color:var(--console-ink);border-radius:12px;font-family:var(--mono);font-size:.82rem;line-height:1.75;box-shadow:0 24px 48px -24px rgba(10,13,23,.55);overflow:hidden;min-width:0}
+.console-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
+.console-bar i{width:10px;height:10px;border-radius:50%;background:#3A4258}
+.console-bar span{margin-left:8px;color:var(--console-dim);font-size:.75rem}
+.console-body{padding:14px 16px 16px;min-height:262px}
+.console .cmd{color:var(--console-dim)}
+.console .ln{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.console .ok{color:#5FD39A}
+.console .run{color:#F2C46B}
+.console .sum{margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.08)}
+.console .sum b{color:#5FD39A}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:12px;background:var(--surface);margin-bottom:72px}
+.stat{padding:22px;display:flex;flex-direction:column;gap:2px;border-left:1px solid var(--line)}
+.stat:first-child{border-left:0}
+.stat strong{font-family:var(--display);font-size:2rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+.stat span{color:var(--muted);font-size:.92rem}
+@media (max-width:760px){.hero{grid-template-columns:1fr;padding-block:48px 40px;gap:32px}.stats{grid-template-columns:1fr 1fr}.stat:nth-child(3){border-left:0}.stat:nth-child(n+3){border-top:1px solid var(--line)}}
 
 /* Sections */
-section{display:flex;flex-direction:column;gap:20px}
+main{display:flex;flex-direction:column;gap:80px;padding-bottom:72px}
+section{display:flex;flex-direction:column;gap:22px}
 .head{display:flex;flex-direction:column;gap:6px;border-bottom:2px solid var(--ink);padding-bottom:10px}
 
 /* Case files */
-.cases{display:flex;flex-direction:column;gap:18px}
-.case{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px;display:grid;grid-template-columns:1fr;gap:14px}
+.cases{display:grid;grid-template-columns:1fr;gap:18px}
+.case{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;display:grid;gap:14px;transition:transform .25s,box-shadow .25s,border-color .25s;position:relative;overflow:hidden}
+.case::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);transform:scaleY(0);transform-origin:top;transition:transform .35s}
+.case:hover{transform:translateY(-3px);box-shadow:0 14px 32px -18px rgba(20,27,45,.4);border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}
+.case:hover::before{transform:scaleY(1)}
 .case-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;align-items:baseline}
 .id{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
 .pill{font-family:var(--mono);font-size:.72rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:999px;white-space:nowrap}
 .pill.live{background:var(--pass-soft);color:var(--pass)}
 .pill.client{background:var(--accent-soft);color:var(--accent)}
 .pill.wip{background:var(--learn-soft);color:var(--learn)}
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.cols > div{min-width:0;display:flex;flex-direction:column;gap:6px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.cols>div{min-width:0;display:flex;flex-direction:column;gap:6px}
 ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:4px}
 ul.checks{list-style:none;padding-left:0}
 ul.checks li{padding-left:1.6em;position:relative}
 ul.checks li::before{content:"✓";position:absolute;left:0;color:var(--pass);font-weight:700}
 .tags{display:flex;flex-wrap:wrap;gap:6px}
 .tag{font-family:var(--mono);font-size:.75rem;border:1px solid var(--line);border-radius:6px;padding:2px 8px;color:var(--muted)}
-.links{display:flex;flex-wrap:wrap;gap:14px;font-weight:600}
+.links{display:flex;flex-wrap:wrap;gap:16px;font-weight:600}
+.links a{text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 100%/0 2px no-repeat;transition:background-size .25s}
+.links a:hover{background-size:100% 2px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:640px){.cols,.grid2{grid-template-columns:1fr}.case{padding:18px}}
 
-/* Skills table */
-.table-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
-table{border-collapse:collapse;width:100%;min-width:520px}
-th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top}
-tr:last-child td{border-bottom:0}
-th{font-family:var(--mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+/* Skills */
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.skill{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.skill-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.skill b{font-weight:600}
+.skill span.where{color:var(--muted);font-size:.92rem}
 
 /* Timeline */
-.timeline{display:flex;flex-direction:column;gap:0;border-left:2px solid var(--line);margin-left:6px}
-.t{padding:0 0 22px 22px;position:relative;display:flex;flex-direction:column;gap:2px}
+.timeline{display:flex;flex-direction:column;border-left:2px solid var(--line);margin-left:6px}
+.t{padding:0 0 24px 24px;position:relative;display:flex;flex-direction:column;gap:2px}
 .t::before{content:"";position:absolute;left:-7px;top:8px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--accent)}
 .t .when{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
 .t p{color:var(--muted)}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:8px;min-width:0}
 
-.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:8px;min-width:0}
-footer{color:var(--muted);font-size:.9rem;border-top:1px solid var(--line);padding-top:18px}
+/* Contact band */
+.cta{background:var(--ink);color:var(--bg);border-radius:16px;padding:40px 32px;display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.cta h2{color:var(--bg)}
+.cta p{color:color-mix(in srgb,var(--bg) 78%,var(--ink))}
+.cta .email{font-family:var(--mono);font-size:1rem;user-select:all}
+.cta .btn{background:transparent;color:var(--bg);border-color:color-mix(in srgb,var(--bg) 35%,var(--ink))}
+.cta .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+footer{color:var(--muted);font-size:.9rem;border-top:1px solid var(--line);padding-block:20px 32px}
 
-@media (max-width:640px){.cols,.two{grid-template-columns:1fr}.case{padding:18px}}
-@media (prefers-reduced-motion:no-preference){.btn{transition:transform .15s}.btn:hover{transform:translateY(-1px)}}
-*{box-sizing:border-box}body{margin:0}img{max-width:100%}
+/* Motion: page-load stagger + scroll reveal (only when JS runs, so content stays visible without it) */
+.js .rise{opacity:0;transform:translateY(18px)}
+.js .rise.in{opacity:1;transform:none;transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .js .rise{opacity:1;transform:none}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
 </style>
 </head>
 <body>
+<div class="progress" id="progress"></div>
 
+<nav class="gutter">
+  <div class="wrap">
+    <a class="brand" href="#top">Avinash<span>.</span></a>
+    <div class="navlinks">
+      <a href="#qa">QA work</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills" class="hide-sm">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<div class="gutter" id="top">
 <div class="wrap">
 
 <header class="hero">
-  <div class="role">Junior QA Tester · Manual + learning Playwright · Warsaw, Poland</div>
-  <h1>Avinash Dangol<span>.</span></h1>
-  <p class="lead">I build real websites and apps with AI tools like Claude, then I check that they work. I like finding out how products break, and I have a background in sales and customer service, so I know what real users notice.</p>
-  <div class="meta"><span>Bachelor's degree in CS / IT</span><span>English · Nepali</span><span>Living in Poland since 2017</span></div>
-  <div class="contact">
-    <span class="email" id="email">avinashdangol5@gmail.com</span>
-    <button class="btn primary" id="copyBtn" type="button">Copy email</button>
-    <a class="btn" href="https://github.com/avinashdangol" target="_blank" rel="noopener">GitHub</a>
-    <a class="btn" href="https://www.linkedin.com/in/avinash-dangol-6977721ba" target="_blank" rel="noopener">LinkedIn</a>
+  <div class="hero-text">
+    <span class="status rise"><i></i>Open to junior QA roles</span>
+    <h1 class="rise">Avinash Dangol<span class="dot">.</span></h1>
+    <div class="typed rise" aria-label="Junior QA Tester"><span id="typed">Junior QA Tester</span><span class="caret">&nbsp;</span></div>
+    <p class="lead rise">I build real websites and apps with AI tools like Claude, then I test them properly. I like finding out how products break, and my background in sales and customer service means I know what real users notice.</p>
+    <div class="meta rise"><span>Warsaw, Poland</span><span>Bachelor's in CS / IT</span><span>English · Nepali</span></div>
+    <div class="contact rise">
+      <a class="btn primary" href="#contact">Contact me</a>
+      <a class="btn" href="https://github.com/avinashdangol" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn" href="https://www.linkedin.com/in/avinash-dangol-6977721ba" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+
+  <div class="console rise" aria-hidden="true">
+    <div class="console-bar"><i></i><i></i><i></i><span>my-test-checklist.log</span></div>
+    <div class="console-body" id="console">
+      <div class="ln cmd">$ run checks --all-projects</div>
+      <div class="ln"><span class="ok">✓</span> login works for paid students</div>
+      <div class="ln"><span class="ok">✓</span> free users see only 3 lessons</div>
+      <div class="ln"><span class="ok">✓</span> daily email reaches test inbox</div>
+      <div class="ln"><span class="ok">✓</span> game runs on mobile, landscape</div>
+      <div class="ln"><span class="ok">✓</span> shop checkout flow on phone</div>
+      <div class="ln"><span class="ok">✓</span> all links and contact details</div>
+      <div class="ln sum"><b>6 passed</b> · ready to ship</div>
+    </div>
   </div>
 </header>
 
-<section>
-  <div class="head"><span class="label">QA work</span><h2>Testing practice</h2></div>
+<div class="stats rise">
+  <div class="stat"><strong data-count="6">6</strong><span>live projects built</span></div>
+  <div class="stat"><strong data-count="15" data-suffix="+">15+</strong><span>test cases on SauceDemo</span></div>
+  <div class="stat"><strong data-count="4">4</strong><span>testers I coordinated</span></div>
+  <div class="stat"><strong data-count="2017">2017</strong><span>living in Poland since</span></div>
+</div>
+
+<main>
+
+<section id="qa">
+  <div class="head rise"><span class="label">QA work</span><h2>Testing practice</h2></div>
   <div class="cases">
-    <article class="case">
+    <article class="case rise">
       <div class="case-top"><span class="id">QA-01 · Manual testing</span><span class="pill live">On GitHub</span></div>
       <h3>SauceDemo: e-commerce app testing</h3>
       <p>Manual testing of a demo online shop. I wrote test cases, ran them and documented the bugs I found with steps to reproduce and screenshots.</p>
@@ -127,11 +234,11 @@ footer{color:var(--muted);font-size:.9rem;border-top:1px solid var(--line);paddi
   </div>
 </section>
 
-<section>
-  <div class="head"><span class="label">Projects</span><h2>What I built and how I tested it</h2></div>
+<section id="projects">
+  <div class="head rise"><span class="label">Projects</span><h2>What I built and how I tested it</h2></div>
   <div class="cases">
 
-    <article class="case">
+    <article class="case rise">
       <div class="case-top"><span class="id">CASE-01 · Web app</span><span class="pill live">Live</span></div>
       <h3>Polish Bhasa: Polish course for Nepali speakers</h3>
       <p>I came up with the idea of writing Polish pronunciation in Nepali script, because Polish was very hard for me when I arrived. I built a full A1 course website with paid access, a daily email and ad spaces for local businesses.</p>
@@ -142,7 +249,7 @@ footer{color:var(--muted);font-size:.9rem;border-top:1px solid var(--line);paddi
           <li>Separate email lists for students and free subscribers</li>
           <li>Paid ad banners for restaurants and shops</li></ul></div>
         <div><span class="label">How I tested it</span>
-          <ul class="checks"><li>Ran a team of 4 testers with free test accounts</li>
+          <ul class="checks"><li>Coordinated 4 testers with free test accounts</li>
           <li>Checked locked vs unlocked lessons for paid and free users</li>
           <li>Sent every bulk email to a test inbox before real users got it</li>
           <li>Tested on phones, since most students use mobile</li></ul></div>
@@ -151,123 +258,181 @@ footer{color:var(--muted);font-size:.9rem;border-top:1px solid var(--line);paddi
       <div class="links"><a href="https://polishbhasa.pl" target="_blank" rel="noopener">polishbhasa.pl ↗</a><a href="https://www.youtube.com/@PolishBhasa" target="_blank" rel="noopener">YouTube ↗</a></div>
     </article>
 
-    <article class="case">
-      <div class="case-top"><span class="id">CASE-02 · Browser game</span><span class="pill live">Live</span></div>
-      <h3>Kanchha's Kathmandu Run</h3>
-      <p>A 2D side-scrolling platformer set in Kathmandu, made with AI and published on itch.io so anyone can play in the browser.</p>
-      <div class="cols">
-        <div><span class="label">What I built</span>
-          <ul><li>Nepali-themed levels, characters and story</li>
-          <li>Playable on desktop and on mobile in landscape</li>
-          <li>Published and promoted on my YouTube channel</li></ul></div>
-        <div><span class="label">How I tested it</span>
-          <ul class="checks"><li>Played through levels to find bugs in jumps and collisions</li>
-          <li>Checked touch controls on mobile in landscape</li>
-          <li>Checked it loads and plays after upload to itch.io</li></ul></div>
-      </div>
-      <div class="tags"><span class="tag">HTML5</span><span class="tag">JavaScript</span><span class="tag">Game testing</span></div>
-      <div class="links"><a href="https://dangolstudio.itch.io/kathmandu-run" target="_blank" rel="noopener">Play on itch.io ↗</a></div>
-    </article>
+    <div class="grid2">
+      <article class="case rise">
+        <div class="case-top"><span class="id">CASE-02 · Browser game</span><span class="pill live">Live</span></div>
+        <h3>Kanchha's Kathmandu Run</h3>
+        <p>A 2D side-scrolling platformer set in Kathmandu, made with AI and published on itch.io so anyone can play in the browser.</p>
+        <ul class="checks"><li>Played through levels to find bugs in jumps and collisions</li>
+        <li>Checked touch controls on mobile in landscape</li>
+        <li>Checked it loads and plays after upload</li></ul>
+        <div class="tags"><span class="tag">HTML5</span><span class="tag">JavaScript</span><span class="tag">Game testing</span></div>
+        <div class="links"><a href="https://dangolstudio.itch.io/kathmandu-run" target="_blank" rel="noopener">Play on itch.io ↗</a></div>
+      </article>
 
-    <article class="case">
-      <div class="case-top"><span class="id">CASE-03 · Online shop</span><span class="pill live">Live · Co-founder</span></div>
-      <h3>Sweet Bento by SA: online cake shop</h3>
-      <p>An online bento cake business in Warsaw that I co-founded. I built the website and the brand, and I run the online side of the business.</p>
-      <div class="cols">
-        <div><span class="label">What I built</span>
-          <ul><li>The shop website, from start to launch</li>
-          <li>Logo and branding</li>
-          <li>Pages for products and customer contact</li></ul></div>
-        <div><span class="label">How I tested it</span>
-          <ul class="checks"><li>Checked the full customer journey, from browsing to contacting us</li>
-          <li>Checked the layout on phones, where most customers shop</li>
-          <li>Checked links, prices and contact details before launch</li></ul></div>
-      </div>
-      <div class="tags"><span class="tag">E-commerce</span><span class="tag">Branding</span><span class="tag">Claude AI</span></div>
-      <div class="links"><a href="https://sweetbentobysa.com" target="_blank" rel="noopener">sweetbentobysa.com ↗</a></div>
-    </article>
+      <article class="case rise">
+        <div class="case-top"><span class="id">CASE-03 · Online shop</span><span class="pill live">Co-founder</span></div>
+        <h3>Sweet Bento by SA</h3>
+        <p>An online bento cake business in Warsaw that I co-founded. I built the website and the brand, and I run the online side.</p>
+        <ul class="checks"><li>Checked the customer journey, from browsing to contacting us</li>
+        <li>Checked the layout on phones, where most customers shop</li>
+        <li>Checked links, prices and contact details before launch</li></ul>
+        <div class="tags"><span class="tag">E-commerce</span><span class="tag">Branding</span></div>
+        <div class="links"><a href="https://sweetbentobysa.com" target="_blank" rel="noopener">sweetbentobysa.com ↗</a></div>
+      </article>
 
-    <article class="case">
-      <div class="case-top"><span class="id">CASE-04 · Business website</span><span class="pill client">Client</span></div>
-      <h3>CONEKTIK recruitment agency website</h3>
-      <p>A website for an employment agency with branches in Kraków, Wrocław and Warsaw. It serves two groups: employers who want to hire and people looking for work.</p>
-      <div class="cols">
-        <div><span class="label">What I built</span>
-          <ul><li>Pages for employers and for job seekers</li>
-          <li>Brand colors, contact details and branch info</li>
-          <li>Links to the agency's social media</li></ul></div>
-        <div><span class="label">How I tested it</span>
-          <ul class="checks"><li>Checked all links, contact details and forms</li>
-          <li>Checked the layout on phone, tablet and desktop</li>
-          <li>Checked the content from both user groups' point of view</li></ul></div>
-      </div>
-      <div class="tags"><span class="tag">WordPress</span><span class="tag">Responsive design</span></div>
-      <div class="links"><a href="https://conektik.com.pl" target="_blank" rel="noopener">conektik.com.pl ↗</a></div>
-    </article>
+      <article class="case rise">
+        <div class="case-top"><span class="id">CASE-04 · Business website</span><span class="pill client">Client</span></div>
+        <h3>CONEKTIK recruitment agency</h3>
+        <p>A website for an employment agency with branches in Kraków, Wrocław and Warsaw, for both employers and job seekers.</p>
+        <ul class="checks"><li>Checked all links, contact details and forms</li>
+        <li>Checked the layout on phone, tablet and desktop</li>
+        <li>Checked content from both user groups' point of view</li></ul>
+        <div class="tags"><span class="tag">WordPress</span><span class="tag">Responsive design</span></div>
+        <div class="links"><a href="https://conektik.com.pl" target="_blank" rel="noopener">conektik.com.pl ↗</a></div>
+      </article>
 
-    <article class="case">
-      <div class="case-top"><span class="id">CASE-05 · Freelance design</span><span class="pill client">Clients</span></div>
-      <h3>Dangol Design: logos, posters and social media</h3>
-      <p>My freelance design work for small businesses in Warsaw, made with AI tools. Clients include an employment agency that orders posters regularly.</p>
-      <div class="tags"><span class="tag">Logo design</span><span class="tag">Posters</span><span class="tag">Facebook pages</span><span class="tag">Client communication</span></div>
-      <div class="links"><a href="https://www.facebook.com/profile.php?id=61595044676432" target="_blank" rel="noopener">Facebook page ↗</a></div>
-    </article>
+      <article class="case rise">
+        <div class="case-top"><span class="id">CASE-05 · Freelance design</span><span class="pill client">Clients</span></div>
+        <h3>Dangol Design</h3>
+        <p>Logos, posters and social media pages for small businesses in Warsaw, made with AI tools. Clients include an employment agency that orders posters regularly.</p>
+        <div class="tags"><span class="tag">Logo design</span><span class="tag">Posters</span><span class="tag">Client communication</span></div>
+        <div class="links"><a href="https://www.facebook.com/profile.php?id=61595044676432" target="_blank" rel="noopener">Facebook page ↗</a></div>
+      </article>
+    </div>
 
-    <article class="case">
+    <article class="case rise">
       <div class="case-top"><span class="id">CASE-06 · Video</span><span class="pill wip">Ongoing</span></div>
       <h3>Space of Avinash: my YouTube channel</h3>
       <p>My personal YouTube channel, where I post videos and promote my projects, including my game.</p>
-      <div class="tags"><span class="tag">Video</span><span class="tag">Social media</span></div>
     </article>
 
   </div>
 </section>
 
-<section>
-  <div class="head"><span class="label">Skills</span><h2>What I can do now and what I'm learning</h2></div>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>Skill</th><th>Level</th><th>Where I used it</th></tr></thead>
-      <tbody>
-        <tr><td>Manual testing (test cases, bug reports)</td><td><span class="pill live">Using</span></td><td>Polish Bhasa, game, client websites</td></tr>
-        <tr><td>Building with AI (Claude)</td><td><span class="pill live">Using</span></td><td>All the projects above</td></tr>
-        <tr><td>WordPress</td><td><span class="pill live">Using</span></td><td>Polish Bhasa, CONEKTIK</td></tr>
-        <tr><td>Mobile and cross-browser checks</td><td><span class="pill live">Using</span></td><td>Game, websites</td></tr>
-        <tr><td>Playwright test automation</td><td><span class="pill wip">Learning</span></td><td>Practice tests on my own sites</td></tr>
-        <tr><td>ISTQB Foundation</td><td><span class="pill wip">Learning</span></td><td>Preparing for the exam</td></tr>
-        <tr><td>SQL, Excel, Power BI</td><td><span class="pill wip">Learning</span></td><td>Self-study projects</td></tr>
-      </tbody>
-    </table>
+<section id="skills">
+  <div class="head rise"><span class="label">Skills</span><h2>What I can do now and what I'm learning</h2></div>
+  <div class="skills">
+    <div class="skill rise"><div class="skill-top"><b>Manual testing</b><span class="pill live">Using</span></div><span class="where">Test cases, bug reports, exploratory testing</span></div>
+    <div class="skill rise"><div class="skill-top"><b>Building with AI</b><span class="pill live">Using</span></div><span class="where">Claude, for all the projects above</span></div>
+    <div class="skill rise"><div class="skill-top"><b>WordPress</b><span class="pill live">Using</span></div><span class="where">Polish Bhasa, CONEKTIK</span></div>
+    <div class="skill rise"><div class="skill-top"><b>Mobile and browser checks</b><span class="pill live">Using</span></div><span class="where">Game, shop, client websites</span></div>
+    <div class="skill rise"><div class="skill-top"><b>Jira, Postman basics</b><span class="pill live">Using</span></div><span class="where">SauceDemo practice</span></div>
+    <div class="skill rise"><div class="skill-top"><b>Playwright</b><span class="pill wip">Learning</span></div><span class="where">Automated tests on my own sites</span></div>
+    <div class="skill rise"><div class="skill-top"><b>ISTQB Foundation</b><span class="pill wip">Learning</span></div><span class="where">Preparing for the exam</span></div>
+    <div class="skill rise"><div class="skill-top"><b>SQL</b><span class="pill wip">Learning</span></div><span class="where">MySQL practice projects on GitHub</span></div>
   </div>
 </section>
 
 <section>
-  <div class="head"><span class="label">Experience</span><h2>Work background</h2></div>
-  <div class="timeline">
-    <div class="t"><span class="when">2022 – now</span><h3>Travel agency, Poland</h3><p>Customer service and sales. I handle customer questions and solve problems every day.</p></div>
-    <div class="t"><span class="when">Freelance</span><h3>Recruitment</h3><p>I place general workers in factories in Poland, and I have helped many people find jobs.</p></div>
-    <div class="t"><span class="when">Past</span><h3>Restaurant co-owner, Poland</h3><p>One of three partners in an Asian restaurant (Korean, bao, dimsum, Thai, ramen).</p></div>
-    <div class="t"><span class="when">Past</span><h3>Marketing and sales, fast food chains</h3><p>Worked at major fast food chains.</p></div>
+  <div class="head rise"><span class="label">Experience</span><h2>Work background</h2></div>
+  <div class="grid2">
+    <div class="timeline rise">
+      <div class="t"><span class="when">2022 – now</span><h3>Travel agency, Poland</h3><p>Customer service and sales. I handle customer questions and solve problems every day.</p></div>
+      <div class="t"><span class="when">Freelance</span><h3>Recruitment</h3><p>I place general workers in factories in Poland, and I have helped many people find jobs.</p></div>
+      <div class="t"><span class="when">Past</span><h3>Restaurant co-owner, Poland</h3><p>One of three partners in an Asian restaurant.</p></div>
+      <div class="t"><span class="when">Past</span><h3>Marketing and sales, fast food chains</h3><p>Worked at major fast food chains.</p></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div class="box rise"><span class="label">Why QA</span><p>AI can write code fast, but someone still has to check that it works for real users. That's the part I enjoy: trying things, finding what's broken and explaining it clearly.</p></div>
+      <div class="box rise"><span class="label">Education</span><p>Bachelor's degree in Computer Science / IT.</p><span class="label">Languages</span><p>English, Nepali</p></div>
+    </div>
   </div>
 </section>
 
-<section>
-  <div class="two">
-    <div class="box"><span class="label">Why QA</span><p>AI can write code fast, but someone still has to check that it works for real users. That's the part I enjoy: trying things, finding what's broken and explaining it clearly.</p></div>
-    <div class="box"><span class="label">Education</span><p>Bachelor's degree in Computer Science / IT.</p><span class="label">Languages</span><p>English, Nepali</p></div>
+<section id="contact">
+  <div class="cta rise">
+    <span class="label" style="color:inherit;opacity:.7">Contact</span>
+    <h2>Looking for a junior QA tester?</h2>
+    <p>I'm open to junior QA roles in Poland with English-speaking teams. Send me an email and I'll reply quickly.</p>
+    <span class="email" id="email">avinashdangol5@gmail.com</span>
+    <div class="contact">
+      <button class="btn primary" id="copyBtn" type="button">Copy email</button>
+      <a class="btn" href="mailto:avinashdangol5@gmail.com">Send email</a>
+      <a class="btn" href="https://www.linkedin.com/in/avinash-dangol-6977721ba" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
   </div>
 </section>
 
-<footer>Avinash Dangol · Warsaw, Poland · avinashdangol5@gmail.com</footer>
+</main>
+</div>
 </div>
 
+<footer class="gutter"><div class="wrap">© Avinash Dangol · Warsaw, Poland</div></footer>
+
 <script>
-document.getElementById('copyBtn').addEventListener('click', function(){
-  var b=this, t=document.getElementById('email').textContent;
-  function done(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy email'},1600)}
-  function fallback(){var r=document.createRange();r.selectNodeContents(document.getElementById('email'));var s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Press Ctrl+C'}
-  try{navigator.clipboard.writeText(t).then(done,fallback)}catch(e){fallback()}
-});
+(function(){
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.documentElement.classList.add('js');
+
+  // Reveal: hero items stagger on load, the rest on scroll
+  var items = [].slice.call(document.querySelectorAll('.rise'));
+  var heroItems = items.filter(function(el){ return el.closest('.hero') || el.classList.contains('stats'); });
+  heroItems.forEach(function(el,i){ setTimeout(function(){ el.classList.add('in'); }, reduce ? 0 : 120 + i*110); });
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {rootMargin:'0px 0px -8% 0px'});
+    items.forEach(function(el){ if(heroItems.indexOf(el)<0) io.observe(el); });
+  } else { items.forEach(function(el){ el.classList.add('in'); }); }
+
+  // Typed role line
+  var roles = ['Junior QA Tester','Manual testing · bug reports','Learning Playwright','Building with AI, testing by hand'];
+  var el = document.getElementById('typed');
+  if (!reduce){
+    var r=0, c=roles[0].length, del=true;
+    setTimeout(function tick(){
+      var w = roles[r];
+      if (del){ c--; el.textContent = w.slice(0,c); if(c===0){ del=false; r=(r+1)%roles.length; } setTimeout(tick, 35); }
+      else { var nw = roles[r]; c++; el.textContent = nw.slice(0,c); if(c===nw.length){ del=true; setTimeout(tick, 2200); } else setTimeout(tick, 60); }
+    }, 2600);
+  }
+
+  // Console: replay the test run line by line
+  if (!reduce){
+    var lines = [].slice.call(document.querySelectorAll('#console .ln'));
+    function run(){
+      lines.forEach(function(l){ l.style.visibility='hidden'; });
+      lines.forEach(function(l,i){
+        setTimeout(function(){
+          l.style.visibility='visible';
+          var mark = l.querySelector('.ok');
+          if (mark){ mark.textContent='…'; mark.className='run'; setTimeout(function(){ mark.textContent='✓'; mark.className='ok'; }, 380); }
+        }, 500 + i*620);
+      });
+      setTimeout(run, 500 + lines.length*620 + 4500);
+    }
+    run();
+  }
+
+  // Count-up stats
+  function countUp(n){
+    var target = +n.dataset.count, suf = n.dataset.suffix||'', start = target>1000 ? target-30 : 0, t0=null;
+    function step(t){ if(!t0) t0=t; var p=Math.min((t-t0)/1200,1); n.textContent = Math.round(start+(target-start)*(1-Math.pow(1-p,3))) + (p===1?suf:''); if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  if (!reduce) document.querySelectorAll('[data-count]').forEach(function(n){ setTimeout(function(){ countUp(n); }, 700); });
+
+  // Scroll progress + active nav link
+  var bar = document.getElementById('progress');
+  var links = [].slice.call(document.querySelectorAll('.navlinks a'));
+  function onScroll(){
+    var h = document.documentElement, max = h.scrollHeight - h.clientHeight;
+    bar.style.transform = 'scaleX(' + (max>0 ? h.scrollTop/max : 0) + ')';
+    var cur = null;
+    links.forEach(function(a){ var s=document.querySelector(a.getAttribute('href')); if(s && s.getBoundingClientRect().top < 140) cur=a; });
+    links.forEach(function(a){ a.classList.toggle('active', a===cur); });
+  }
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  // Copy email
+  document.getElementById('copyBtn').addEventListener('click', function(){
+    var b=this, t=document.getElementById('email').textContent;
+    function done(){ b.textContent='Copied ✓'; setTimeout(function(){ b.textContent='Copy email'; },1600); }
+    function fallback(){ var rg=document.createRange(); rg.selectNodeContents(document.getElementById('email')); var s=getSelection(); s.removeAllRanges(); s.addRange(rg); b.textContent='Press Ctrl+C'; }
+    try{ navigator.clipboard.writeText(t).then(done,fallback); }catch(e){ fallback(); }
+  });
+})();
 </script>
 </body>
 </html>

@@ -241,21 +241,27 @@ footer{color:var(--muted);font-size:.9rem;border-top:1px solid var(--line);paddi
     <article class="case rise">
       <div class="case-top"><span class="id">CASE-01 · Web app</span><span class="pill live">Live</span></div>
       <h3>Polish Bhasa: Polish course for Nepali speakers</h3>
-      <p>I came up with the idea of writing Polish pronunciation in Nepali script, because Polish was very hard for me when I arrived. I built a full A1 course website with paid access, a daily email and ad spaces for local businesses.</p>
+      <p>I came up with the idea of writing Polish pronunciation in Nepali script, because Polish was very hard for me when I arrived. I built a full A1 course website with paid access, a dictionary, games, a final exam with a certificate, a daily email and ad spaces for local businesses.</p>
       <div class="cols">
         <div><span class="label">What I built</span>
           <ul><li>24-lesson A1 course: 3 free lessons, the rest unlock after payment</li>
+          <li>Polish–Nepali dictionary with 1,008 words, search and native audio</li>
+          <li>Games with a weekly leaderboard, and 16 romantic phrases</li>
+          <li>Final exam (easy, medium and hard questions, 100 points, pass at 80) that opens only after all 24 lessons</li>
+          <li>Certificate with a unique ID that anyone can verify online</li>
           <li>Daily "Word of the Day" email with audio, sent automatically at 8:00</li>
-          <li>Separate email lists for students and free subscribers</li>
-          <li>Paid ad banners for restaurants and shops</li></ul></div>
+          <li>Admin view for payments and subscribers, plus automatic weekly backups</li></ul></div>
         <div><span class="label">How I tested it</span>
-          <ul class="checks"><li>Coordinated 4 testers with free test accounts</li>
-          <li>Checked locked vs unlocked lessons for paid and free users</li>
+          <ul class="checks"><li>Coordinated 4 testers and a content reviewer with free test accounts</li>
+          <li>Checked locked vs unlocked content for guests, free and paid users</li>
+          <li>Generated 20 random exams to check every one has 25 questions, 100 points and no duplicate answers</li>
+          <li>Checked the exam stays locked until all lessons are done, also on the server side</li>
           <li>Sent every bulk email to a test inbox before real users got it</li>
+          <li>Took a backup and checked every page loaded after each update</li>
           <li>Tested on phones, since most students use mobile</li></ul></div>
       </div>
-      <div class="tags"><span class="tag">WordPress</span><span class="tag">Payments</span><span class="tag">Email automation</span><span class="tag">Claude AI</span></div>
-      <div class="links"><a href="https://polishbhasa.pl" target="_blank" rel="noopener">polishbhasa.pl ↗</a><a href="https://www.youtube.com/@PolishBhasa" target="_blank" rel="noopener">YouTube ↗</a></div>
+      <div class="tags"><span class="tag">WordPress</span><span class="tag">PHP</span><span class="tag">Payments</span><span class="tag">Email automation</span><span class="tag">Regression testing</span><span class="tag">Claude AI</span></div>
+      <div class="links"><a href="https://polishbhasa.pl" target="_blank" rel="noopener">polishbhasa.pl ↗</a><a href="https://polishbhasa.pl/dictionary/" target="_blank" rel="noopener">Dictionary ↗</a><a href="https://www.youtube.com/@PolishBhasa" target="_blank" rel="noopener">YouTube ↗</a><a href="https://www.tiktok.com/@polishbhasa" target="_blank" rel="noopener">TikTok ↗</a></div>
     </article>
 
     <div class="grid2">

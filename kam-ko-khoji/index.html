@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kam Ko Khoji PL · काम को खोजी — Jobs in Poland for Nepali people</title>
+<meta name="description" content="Kam Ko Khoji PL — free job board for Nepali people in Poland. Find jobs, apply with your passport, visa or TRC, and post vacancies to help each other.">
+<meta property="og:title" content="Kam Ko Khoji PL · काम को खोजी">
+<meta property="og:description" content="पोल्याण्डमा काम खोज्ने नेपालीहरूको लागि — free job board. Find work, apply, and post vacancies.">
+<meta property="og:image" content="https://avinashdangol.github.io/kam-ko-khoji/assets/cover.png">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#FCCD05">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23FCCD05'/%3E%3Ccircle cx='28' cy='28' r='13' fill='none' stroke='%23111' stroke-width='6'/%3E%3Cpath d='M37 37l12 12' stroke='%23111' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="demoBanner" class="demo-banner" hidden>
+  Demo mode — sample jobs only, nothing is saved yet. (Connect Supabase in <code>config.js</code> to go live.)
+</div>
+
+<header class="topbar">
+  <a class="brand" href="#top" aria-label="Kam Ko Khoji PL home">
+    <span class="brand-ne">काम को खोजी</span><span class="pl-badge" aria-hidden="true"></span><span class="brand-pl">PL</span>
+  </a>
+  <nav class="nav">
+    <a href="#jobs">Jobs <span>काम</span></a>
+    <a href="#post">Post a job <span>काम राख्नुहोस्</span></a>
+    <a href="#safety">Safety <span>सावधानी</span></a>
+  </nav>
+  <a class="btn btn-dark btn-sm" href="#post">+ Post job</a>
+</header>
+
+<main>
+<section class="hero" id="top">
+  <p class="eyebrow">पोल्याण्डमा काम खोज्ने नेपालीहरूको लागि · For Nepali people in Poland</p>
+  <h1 class="title-ne">काम को खोजी</h1>
+  <p class="title-en">KAM KO KHOJI <span class="pl-flag" aria-label="Poland"></span></p>
+
+  <form class="search" id="searchForm" role="search">
+    <input id="q" type="search" autocomplete="off" placeholder="Search · खोज्नुहोस्  (factory, warehouse, Wrocław…)" aria-label="Search jobs">
+    <select id="city" aria-label="City"><option value="">All cities · सबै सहर</option></select>
+    <button class="search-btn" type="submit" aria-label="Search">
+      <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.8"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+    </button>
+  </form>
+
+  <div class="hero-stats">
+    <span><b id="statJobs">0</b> open jobs · खुला काम</span>
+    <span><b id="statCities">0</b> cities · सहर</span>
+    <span><b>0 zł</b> fee for workers · कामदारलाई शुल्क छैन</span>
+  </div>
+  <button class="btn btn-outline" type="button" id="registerBtn">Send my profile · आफ्नो प्रोफाइल पठाउनुहोस्</button>
+</section>
+
+<section id="jobs" class="section">
+  <div class="section-head">
+    <h2>Latest jobs <span>नयाँ कामहरू</span></h2>
+    <div class="chips" id="catChips" role="group" aria-label="Job type"></div>
+    <div class="toggles">
+      <label><input type="checkbox" id="fAccom"> Accommodation · बस्ने ठाउँ</label>
+      <label><input type="checkbox" id="fApplied"> TRC applied OK · TRC अप्लाई गरेको चल्छ</label>
+    </div>
+  </div>
+  <div id="jobList" class="job-grid" aria-live="polite"></div>
+  <p id="emptyMsg" class="empty" hidden>No jobs match your search · कुनै काम भेटिएन। Try another city or send your profile and we'll contact you.</p>
+</section>
+
+<section class="how">
+  <div class="how-step"><b>1</b><h3>Find · खोज्नुहोस्</h3><p>Search jobs by city and type. Every job is checked before it goes live.</p></div>
+  <div class="how-step"><b>2</b><h3>Apply · आवेदन</h3><p>Send your name, phone and documents (passport, visa, TRC or TRC-applied proof).</p></div>
+  <div class="how-step"><b>3</b><h3>Get a call · फोन आउँछ</h3><p>We share your application only with that employer, and they contact you.</p></div>
+</section>
+
+<section id="post" class="section post">
+  <div class="post-intro">
+    <h2>Post a job vacancy <span>काम राख्नुहोस्</span></h2>
+    <p>Know a job? Employer, agency or friend — anyone can post and help each other. Each post is checked by our team before it appears (usually within 24 hours).</p>
+    <p class="muted">तपाईंलाई कुनै कामको बारेमा थाहा छ? यहाँ राख्नुहोस् — हामी जाँच गरेर प्रकाशित गर्छौं।</p>
+  </div>
+
+  <form id="postForm" class="card form" novalidate>
+    <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <div class="grid2">
+      <label>Job title * <span>कामको नाम</span>
+        <input name="title" required maxlength="90" placeholder="e.g. Production worker">
+      </label>
+      <label>Company / agency * <span>कम्पनी</span>
+        <input name="company" required maxlength="90">
+      </label>
+      <label>City * <span>सहर</span>
+        <input name="city" required maxlength="60" list="cityList" placeholder="e.g. Wrocław">
+      </label>
+      <label>Job type * <span>कामको प्रकार</span>
+        <select name="category" required id="postCategory"></select>
+      </label>
+      <label>Salary <span>तलब</span>
+        <input name="salary" maxlength="60" placeholder="e.g. 28 zł/h netto">
+      </label>
+      <label>Hours <span>समय</span>
+        <input name="hours" maxlength="60" placeholder="e.g. 10–12 h/day, 6 days">
+      </label>
+      <label>Contract <span>सम्झौता</span>
+        <select name="contract">
+          <option value="">— choose —</option>
+          <option value="uop">Umowa o pracę</option>
+          <option value="uz">Umowa zlecenie</option>
+          <option value="b2b">B2B</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+      <label>Languages needed <span>भाषा</span>
+        <input name="languages" maxlength="60" placeholder="e.g. English basic / no Polish needed">
+      </label>
+    </div>
+
+    <fieldset>
+      <legend>Documents accepted <span>कुन कागजात चल्छ</span></legend>
+      <label class="check"><input type="checkbox" name="docs" value="visa"> Passport + visa</label>
+      <label class="check"><input type="checkbox" name="docs" value="trc"> TRC (Karta pobytu)</label>
+      <label class="check"><input type="checkbox" name="docs" value="trc_applied"> TRC applied (stamp / proof)</label>
+      <label class="check"><input type="checkbox" name="accommodation"> Accommodation provided · बस्ने ठाउँ दिइन्छ</label>
+    </fieldset>
+
+    <label>Description * <span>विवरण</span>
+      <textarea name="description" required maxlength="1500" rows="5" placeholder="What is the work? Shifts, transport, start date, requirements…"></textarea>
+    </label>
+
+    <div class="grid2">
+      <label>Your name * <span>तपाईंको नाम</span>
+        <input name="contact_name" required maxlength="80">
+      </label>
+      <label>Phone / WhatsApp * <span>फोन</span>
+        <input name="contact_phone" required maxlength="30" inputmode="tel" placeholder="+48 …">
+      </label>
+      <label class="span2">Email <span>इमेल</span>
+        <input name="contact_email" type="email" maxlength="120">
+      </label>
+    </div>
+    <p class="muted small">Your phone and email are not shown publicly. Applications come through Kam Ko Khoji.</p>
+
+    <label class="check confirm"><input type="checkbox" name="no_fee" required> I confirm this is a real job and workers will NOT be asked to pay any fee. · कामदारसँग कुनै पैसा लिइने छैन।</label>
+    <button class="btn btn-dark" type="submit">Submit job · पठाउनुहोस्</button>
+  </form>
+  <datalist id="cityList"></datalist>
+</section>
+
+<section id="safety" class="section safety">
+  <h2>Stay safe <span>सावधान रहनुहोस्</span></h2>
+  <div class="safety-grid">
+    <div><h3>Never pay for a job</h3><p>काम पाउन कसैलाई पैसा नतिर्नुहोस्। A real employer does not ask workers for money for a job, a contract or a "visa file".</p></div>
+    <div><h3>Keep your passport</h3><p>आफ्नो पासपोर्ट कसैलाई नदिनुहोस्। Show a copy only. No one is allowed to keep your original passport or TRC card.</p></div>
+    <div><h3>Get a written contract</h3><p>लिखित सम्झौता लिनुहोस्। Before you start, sign an umowa and keep a copy. Ask for it in English if you don't read Polish.</p></div>
+    <div><h3>Report bad jobs</h3><p>शंकास्पद काम देख्नुभयो? Use the "Report" button on any job and our team will check it.</p></div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div>
+    <p class="brand-ne footer-brand">काम को खोजी <small>PL</small></p>
+    <p>A free community job board for Nepali people in Poland. Made by <a href="https://avinashdangol.github.io/">Avinash Dangol</a>.</p>
+  </div>
+  <div class="footer-links">
+    <a href="#privacy" id="privacyLink">Privacy · गोपनीयता</a>
+    <a id="footerWa" href="#" hidden>WhatsApp</a>
+    <a id="footerMail" href="#" hidden>Email</a>
+    <a href="https://avinashdangol.github.io/">← Back to portfolio</a>
+  </div>
+</footer>
+
+<!-- Job + apply dialog -->
+<dialog id="applyDialog" class="dialog" aria-labelledby="dlgTitle">
+  <button class="dlg-close" type="button" data-close aria-label="Close">×</button>
+  <div id="dlgJob" class="dlg-job"></div>
+  <form id="applyForm" class="form" novalidate>
+    <h3 id="applyHeading">Apply for this job · आवेदन दिनुहोस्</h3>
+    <input type="hidden" name="job_id">
+    <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <div class="grid2">
+      <label>Full name * <span>पूरा नाम</span>
+        <input name="full_name" required maxlength="90" autocomplete="name">
+      </label>
+      <label>Phone / WhatsApp * <span>फोन</span>
+        <input name="phone" required maxlength="30" inputmode="tel" autocomplete="tel" placeholder="+48 …">
+      </label>
+      <label>Email <span>इमेल</span>
+        <input name="email" type="email" maxlength="120" autocomplete="email">
+      </label>
+      <label>Current city in Poland <span>अहिले बस्ने सहर</span>
+        <input name="current_city" maxlength="60" list="cityList">
+      </label>
+    </div>
+    <label>Your document status * <span>तपाईंको कागजात</span>
+      <select name="doc_status" required>
+        <option value="">— choose · छान्नुहोस् —</option>
+        <option value="visa">Passport + visa</option>
+        <option value="trc">TRC (Karta pobytu)</option>
+        <option value="trc_applied">TRC applied (stamp / proof)</option>
+        <option value="other">Other</option>
+      </select>
+    </label>
+    <label>Upload documents * <span>कागजात अपलोड</span>
+      <input name="docs" type="file" required multiple accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png">
+      <small class="muted">Passport page, visa / TRC, or TRC-applied proof. Up to 3 files, PDF/JPG/PNG, max 5 MB each.</small>
+    </label>
+    <label>Experience / message <span>अनुभव</span>
+      <textarea name="message" rows="3" maxlength="800" placeholder="e.g. 1 year warehouse experience, forklift licence…"></textarea>
+    </label>
+    <label class="check confirm"><input type="checkbox" name="consent" required>
+      I agree that Kam Ko Khoji stores my details and documents and shares them only with the employer for this job. I can ask for deletion any time. · मेरो विवरण यस कामको रोजगारदातासँग मात्र बाँडिनेमा म सहमत छु।
+    </label>
+    <button class="btn btn-dark" type="submit">Send application · पठाउनुहोस्</button>
+  </form>
+  <div id="applyDone" class="done" hidden>
+    <div class="done-mark">✓</div>
+    <h3>Application sent! · आवेदन पठाइयो!</h3>
+    <p>We will contact you on your phone if the employer is interested. Remember: never pay money for a job.</p>
+    <button class="btn btn-dark" type="button" data-close>Close</button>
+  </div>
+</dialog>
+
+<dialog id="privacyDialog" class="dialog small-dlg" aria-labelledby="privTitle">
+  <button class="dlg-close" type="button" data-close aria-label="Close">×</button>
+  <h3 id="privTitle">Privacy · गोपनीयता</h3>
+  <ul class="plain">
+    <li>We collect only what you type in the forms and the documents you upload.</li>
+    <li>Documents are stored in a private, encrypted storage. They are never shown on the website.</li>
+    <li>Your application is shared only with the employer of the job you applied to.</li>
+    <li>Applications and documents are deleted after 90 days, or earlier if you ask.</li>
+    <li>To see or delete your data, contact us using the details at the bottom of the page.</li>
+  </ul>
+</dialog>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js"></script>
+</body>
+</html>

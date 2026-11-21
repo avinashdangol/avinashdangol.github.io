@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ne">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,171 +10,165 @@
 <meta property="og:image" content="https://avinashdangol.github.io/kam-ko-khoji/assets/cover.png">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#FCCD05">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23FCCD05'/%3E%3Ccircle cx='28' cy='28' r='13' fill='none' stroke='%23111' stroke-width='6'/%3E%3Cpath d='M37 37l12 12' stroke='%23111' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23FCCD05'/%3E%3Ccircle cx='28' cy='28' r='13' fill='none' stroke='%23141414' stroke-width='6'/%3E%3Cpath d='M37 37l12 12' stroke='%23141414' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=5">
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
 
-<div id="demoBanner" class="demo-banner" hidden>
-  Demo mode — sample jobs only, nothing is saved yet. (Connect Supabase in <code>config.js</code> to go live.)
-</div>
+<div id="demoBanner" class="demo-banner" hidden>Demo mode — sample jobs only, nothing is saved.</div>
 
 <header class="topbar">
-  <a class="brand" href="#top" aria-label="Kam Ko Khoji PL home">
-    <span class="brand-ne">काम को खोजी</span><span class="pl-badge" aria-hidden="true"></span><span class="brand-pl">PL</span>
+  <a class="brand" href="#top" aria-label="Kam Ko Khoji PL">
+    <span class="brand-ne">काम को खोजी</span><span class="brand-pl">PL</span>
   </a>
-  <nav class="nav">
-    <a href="#jobs">Jobs <span>काम</span></a>
-    <a href="#post">Post a job <span>काम राख्नुहोस्</span></a>
-    <a href="#safety">Safety <span>सावधानी</span></a>
+  <nav class="nav" aria-label="Main">
+    <a href="#jobs" data-i18n="nav_jobs">Jobs</a>
+    <a href="#post" data-i18n="nav_post">Post a job</a>
+    <a href="#safety" data-i18n="nav_safety">Safety</a>
   </nav>
-  <a class="btn btn-dark btn-sm" href="#post">+ Post job</a>
+  <div class="lang" role="group" aria-label="Language">
+    <button type="button" data-lang="en" aria-pressed="true">EN</button>
+    <button type="button" data-lang="ne" aria-pressed="false">नेपाली</button>
+  </div>
+  <a class="btn btn-dark btn-sm hide-sm" href="#post" data-i18n="btn_post">Post a job</a>
 </header>
 
 <main>
 <section class="hero" id="top">
-  <div class="hero-bg" aria-hidden="true">
-    <div class="hero-grid"></div>
-    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
-    <div class="float-layer" id="floatLayer"></div>
-  </div>
-  <p class="eyebrow"><span class="live-dot"></span>पोल्याण्डमा काम खोज्ने नेपालीहरूको लागि · For Nepali people in Poland</p>
+  <p class="eyebrow" data-i18n="eyebrow">For Nepali people in Poland</p>
   <h1 class="title-ne" aria-label="काम को खोजी"><span class="w" style="--i:0" aria-hidden="true">काम</span> <span class="w" style="--i:1" aria-hidden="true">को</span> <span class="w w-hl" style="--i:2" aria-hidden="true">खोजी<svg class="scribble" viewBox="0 0 300 24" preserveAspectRatio="none"><path d="M6 16 C 70 5, 150 4, 210 11 S 280 19, 294 8"/></svg></span></h1>
-  <p class="title-en"><span class="en-text">KAM KO KHOJI</span> <span class="pl-flag" aria-label="Poland"></span></p>
+  <p class="title-en"><span class="en-text">KAM KO KHOJI</span><span class="pl-flag" aria-label="Poland"></span></p>
 
   <form class="search" id="searchForm" role="search">
-    <input id="q" type="search" autocomplete="off" placeholder="Search · खोज्नुहोस्  (factory, warehouse, Wrocław…)" aria-label="Search jobs">
-    <select id="city" aria-label="City"><option value="">All cities · सबै सहर</option></select>
-    <button class="search-btn" type="submit" aria-label="Search">
-      <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.8"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-    </button>
+    <label class="search-field">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <input id="q" type="search" autocomplete="off" data-i18n-ph="search_ph" placeholder="Job title or keyword" aria-label="Search">
+    </label>
+    <select id="city" aria-label="City"><option value="" data-i18n="all_cities">All cities</option></select>
+    <select id="cat" aria-label="Job type"><option value="" data-i18n="all_types">All job types</option></select>
+    <button class="btn btn-dark search-btn" type="submit" data-i18n="search_btn">Search</button>
   </form>
 
-  <div class="hero-stats">
-    <span><b id="statJobs">0</b> open jobs · खुला काम</span>
-    <span><b id="statCities">0</b> cities · सहर</span>
-    <span><b>0 zł</b> fee for workers · कामदारलाई शुल्क छैन</span>
-  </div>
-  <button class="btn btn-outline" type="button" id="registerBtn">Send my profile · आफ्नो प्रोफाइल पठाउनुहोस्</button>
+  <p class="hero-stats">
+    <span><b id="statJobs">0</b> <span data-i18n="stat_jobs">open jobs</span></span>
+    <span class="dot">·</span>
+    <span><b id="statCities">0</b> <span data-i18n="stat_cities">cities</span></span>
+    <span class="dot">·</span>
+    <span><b>0 zł</b> <span data-i18n="stat_fee">fee for workers</span></span>
+  </p>
+  <button class="link-btn" type="button" id="registerBtn" data-i18n="send_profile">Haven't found a job? Send your profile →</button>
+
   <div class="ticker" aria-hidden="true"><div class="ticker-track" id="tickerTrack"></div></div>
 </section>
 
 <section id="jobs" class="section">
   <div class="section-head">
-    <h2>Latest jobs <span>नयाँ कामहरू</span></h2>
-    <div class="chips" id="catChips" role="group" aria-label="Job type"></div>
+    <div>
+      <h2 data-i18n="jobs_title">Latest jobs</h2>
+      <p class="muted" id="resultCount"></p>
+    </div>
     <div class="toggles">
-      <label><input type="checkbox" id="fAccom"> Accommodation · बस्ने ठाउँ</label>
-      <label><input type="checkbox" id="fApplied"> TRC applied OK · TRC अप्लाई गरेको चल्छ</label>
+      <label class="pill"><input type="checkbox" id="fAccom"><span data-i18n="f_accom">Accommodation</span></label>
+      <label class="pill"><input type="checkbox" id="fApplied"><span data-i18n="f_applied">TRC applied OK</span></label>
     </div>
   </div>
   <div id="jobList" class="job-grid" aria-live="polite"></div>
-  <p id="emptyMsg" class="empty" hidden>No jobs match your search · कुनै काम भेटिएन। Try another city or send your profile and we'll contact you.</p>
+  <div id="emptyMsg" class="empty" hidden>
+    <p data-i18n="empty">No jobs match your search.</p>
+    <button class="btn btn-outline btn-sm" type="button" data-profile data-i18n="profile_h">Send your profile</button>
+  </div>
 </section>
 
-<section class="how">
-  <div class="how-step"><b>1</b><h3>Find · खोज्नुहोस्</h3><p>Search jobs by city and type. Every job is checked before it goes live.</p></div>
-  <div class="how-step"><b>2</b><h3>Apply · आवेदन</h3><p>Send your name, phone and documents (passport, visa, TRC or TRC-applied proof).</p></div>
-  <div class="how-step"><b>3</b><h3>Get a call · फोन आउँछ</h3><p>We share your application only with that employer, and they contact you.</p></div>
+<section class="section how">
+  <div class="how-step"><span class="num">1</span><h3 data-i18n="how1_t">Find</h3><p data-i18n="how1_d"></p></div>
+  <div class="how-step"><span class="num">2</span><h3 data-i18n="how2_t">Apply</h3><p data-i18n="how2_d"></p></div>
+  <div class="how-step"><span class="num">3</span><h3 data-i18n="how3_t">Get a call</h3><p data-i18n="how3_d"></p></div>
 </section>
 
 <section id="post" class="section post">
   <div class="post-intro">
-    <h2>Post a job vacancy <span>काम राख्नुहोस्</span></h2>
-    <p>Know a job? Employer, agency or friend — anyone can post and help each other. Each post is checked by our team before it appears (usually within 24 hours).</p>
-    <p class="muted">तपाईंलाई कुनै कामको बारेमा थाहा छ? यहाँ राख्नुहोस् — हामी जाँच गरेर प्रकाशित गर्छौं।</p>
+    <h2 data-i18n="post_title">Post a job</h2>
+    <p data-i18n="post_intro"></p>
+    <ul class="ticks">
+      <li data-i18n="post_free">Free to post</li>
+      <li data-i18n="post_checked">Checked within 24 hours</li>
+      <li data-i18n="post_private">Your phone and email stay private</li>
+    </ul>
   </div>
 
   <form id="postForm" class="card form" novalidate>
     <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
     <div class="grid2">
-      <label>Job title * <span>कामको नाम</span>
-        <input name="title" required maxlength="90" placeholder="e.g. Production worker">
-      </label>
-      <label>Company / agency * <span>कम्पनी</span>
-        <input name="company" required maxlength="90">
-      </label>
-      <label>City * <span>सहर</span>
-        <input name="city" required maxlength="60" list="cityList" placeholder="e.g. Wrocław">
-      </label>
-      <label>Job type * <span>कामको प्रकार</span>
-        <select name="category" required id="postCategory"></select>
-      </label>
-      <label>Salary <span>तलब</span>
-        <input name="salary" maxlength="60" placeholder="e.g. 28 zł/h netto">
-      </label>
-      <label>Hours <span>समय</span>
-        <input name="hours" maxlength="60" placeholder="e.g. 10–12 h/day, 6 days">
-      </label>
-      <label>Contract <span>सम्झौता</span>
-        <select name="contract">
-          <option value="">— choose —</option>
-          <option value="uop">Umowa o pracę</option>
-          <option value="uz">Umowa zlecenie</option>
-          <option value="b2b">B2B</option>
-          <option value="other">Other</option>
-        </select>
-      </label>
-      <label>Languages needed <span>भाषा</span>
-        <input name="languages" maxlength="60" placeholder="e.g. English basic / no Polish needed">
-      </label>
+      <label><span data-i18n="f_title">Job title</span> *<input name="title" required maxlength="90" data-i18n-ph="ph_title"></label>
+      <label><span data-i18n="f_company">Company</span> *<input name="company" required maxlength="90"></label>
+      <label><span data-i18n="f_city">City</span> *<input name="city" required maxlength="60" list="cityList" placeholder="Wrocław"></label>
+      <label><span data-i18n="f_type">Job type</span> *<select name="category" required id="postCategory"></select></label>
+      <label class="span2"><span data-i18n="f_salary">Salary</span><input name="salary" maxlength="60" data-i18n-ph="ph_salary"></label>
     </div>
 
     <fieldset>
-      <legend>Documents accepted <span>कुन कागजात चल्छ</span></legend>
-      <label class="check"><input type="checkbox" name="docs" value="visa"> Passport + visa</label>
-      <label class="check"><input type="checkbox" name="docs" value="trc"> TRC (Karta pobytu)</label>
-      <label class="check"><input type="checkbox" name="docs" value="trc_applied"> TRC applied (stamp / proof)</label>
-      <label class="check"><input type="checkbox" name="accommodation"> Accommodation provided · बस्ने ठाउँ दिइन्छ</label>
+      <legend data-i18n="f_docs">Documents accepted</legend>
+      <label class="check-pill"><input type="checkbox" name="docs" value="visa"><span data-i18n="doc_visa">Passport + visa</span></label>
+      <label class="check-pill"><input type="checkbox" name="docs" value="trc"><span data-i18n="doc_trc">TRC card</span></label>
+      <label class="check-pill"><input type="checkbox" name="docs" value="trc_applied"><span data-i18n="doc_trc_applied">TRC applied OK</span></label>
+      <label class="check-pill"><input type="checkbox" name="accommodation"><span data-i18n="f_accom_prov">Accommodation provided</span></label>
     </fieldset>
 
-    <label>Description * <span>विवरण</span>
-      <textarea name="description" required maxlength="1500" rows="5" placeholder="What is the work? Shifts, transport, start date, requirements…"></textarea>
-    </label>
+    <label><span data-i18n="f_desc">Job description</span> *<textarea name="description" required maxlength="1500" rows="4" data-i18n-ph="ph_desc"></textarea></label>
 
     <div class="grid2">
-      <label>Your name * <span>तपाईंको नाम</span>
-        <input name="contact_name" required maxlength="80">
-      </label>
-      <label>Phone / WhatsApp * <span>फोन</span>
-        <input name="contact_phone" required maxlength="30" inputmode="tel" placeholder="+48 …">
-      </label>
-      <label class="span2">Email <span>इमेल</span>
-        <input name="contact_email" type="email" maxlength="120">
-      </label>
+      <label><span data-i18n="f_name">Your name</span> *<input name="contact_name" required maxlength="80" autocomplete="name"></label>
+      <label><span data-i18n="f_phone">Phone / WhatsApp</span> *<input name="contact_phone" required maxlength="30" inputmode="tel" autocomplete="tel" placeholder="+48"></label>
     </div>
-    <p class="muted small">Your phone and email are not shown publicly. Applications come through Kam Ko Khoji.</p>
 
-    <label class="check confirm"><input type="checkbox" name="no_fee" required> I confirm this is a real job and workers will NOT be asked to pay any fee. · कामदारसँग कुनै पैसा लिइने छैन।</label>
-    <button class="btn btn-dark" type="submit">Submit job · पठाउनुहोस्</button>
+    <details class="more">
+      <summary data-i18n="more">More details (optional)</summary>
+      <div class="grid2">
+        <label><span data-i18n="f_hours">Working hours</span><input name="hours" maxlength="60" data-i18n-ph="ph_hours"></label>
+        <label><span data-i18n="f_contract">Contract</span>
+          <select name="contract">
+            <option value="" data-i18n="choose">Choose</option>
+            <option value="uop">Umowa o pracę</option>
+            <option value="uz">Umowa zlecenie</option>
+            <option value="b2b">B2B</option>
+            <option value="other" data-i18n="other">Other</option>
+          </select>
+        </label>
+        <label><span data-i18n="f_lang">Languages needed</span><input name="languages" maxlength="60" data-i18n-ph="ph_lang"></label>
+        <label><span data-i18n="f_email">Email</span><input name="contact_email" type="email" maxlength="120" autocomplete="email"></label>
+      </div>
+    </details>
+
+    <label class="check confirm"><input type="checkbox" name="no_fee" required><span data-i18n="no_fee"></span></label>
+    <button class="btn btn-dark btn-block" type="submit" data-i18n="submit_job">Submit job</button>
   </form>
   <datalist id="cityList"></datalist>
 </section>
 
 <section id="safety" class="section safety">
-  <h2>Stay safe <span>सावधान रहनुहोस्</span></h2>
+  <h2 data-i18n="safety_title">Stay safe</h2>
   <div class="safety-grid">
-    <div><h3>Never pay for a job</h3><p>काम पाउन कसैलाई पैसा नतिर्नुहोस्। A real employer does not ask workers for money for a job, a contract or a "visa file".</p></div>
-    <div><h3>Keep your passport</h3><p>आफ्नो पासपोर्ट कसैलाई नदिनुहोस्। Show a copy only. No one is allowed to keep your original passport or TRC card.</p></div>
-    <div><h3>Get a written contract</h3><p>लिखित सम्झौता लिनुहोस्। Before you start, sign an umowa and keep a copy. Ask for it in English if you don't read Polish.</p></div>
-    <div><h3>Report bad jobs</h3><p>शंकास्पद काम देख्नुभयो? Use the "Report" button on any job and our team will check it.</p></div>
+    <div><h3 data-i18n="s1_t"></h3><p data-i18n="s1_d"></p></div>
+    <div><h3 data-i18n="s2_t"></h3><p data-i18n="s2_d"></p></div>
+    <div><h3 data-i18n="s3_t"></h3><p data-i18n="s3_d"></p></div>
+    <div><h3 data-i18n="s4_t"></h3><p data-i18n="s4_d"></p></div>
   </div>
 </section>
 </main>
 
 <footer class="footer">
   <div>
-    <p class="brand-ne footer-brand">काम को खोजी <small>PL</small></p>
-    <p>A free community job board for Nepali people in Poland. Made by <a href="https://avinashdangol.github.io/">Avinash Dangol</a>.</p>
+    <p class="footer-brand">काम को खोजी <span class="brand-pl">PL</span></p>
+    <p class="muted" data-i18n="footer_about"></p>
   </div>
   <div class="footer-links">
-    <a href="#privacy" id="privacyLink">Privacy · गोपनीयता</a>
+    <a href="#privacy" id="privacyLink" data-i18n="privacy">Privacy</a>
     <a id="footerWa" href="#" hidden>WhatsApp</a>
     <a id="footerMail" href="#" hidden>Email</a>
-    <a href="https://avinashdangol.github.io/">← Back to portfolio</a>
+    <a href="https://avinashdangol.github.io/">© Avinash Dangol</a>
   </div>
 </footer>
 
@@ -183,68 +177,52 @@
   <button class="dlg-close" type="button" data-close aria-label="Close">×</button>
   <div id="dlgJob" class="dlg-job"></div>
   <form id="applyForm" class="form" novalidate>
-    <h3 id="applyHeading">Apply for this job · आवेदन दिनुहोस्</h3>
+    <h3 id="applyHeading"></h3>
     <input type="hidden" name="job_id">
     <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
     <div class="grid2">
-      <label>Full name * <span>पूरा नाम</span>
-        <input name="full_name" required maxlength="90" autocomplete="name">
-      </label>
-      <label>Phone / WhatsApp * <span>फोन</span>
-        <input name="phone" required maxlength="30" inputmode="tel" autocomplete="tel" placeholder="+48 …">
-      </label>
-      <label>Email <span>इमेल</span>
-        <input name="email" type="email" maxlength="120" autocomplete="email">
-      </label>
-      <label>Current city in Poland <span>अहिले बस्ने सहर</span>
-        <input name="current_city" maxlength="60" list="cityList">
-      </label>
+      <label><span data-i18n="a_name">Full name</span> *<input name="full_name" required maxlength="90" autocomplete="name"></label>
+      <label><span data-i18n="f_phone">Phone / WhatsApp</span> *<input name="phone" required maxlength="30" inputmode="tel" autocomplete="tel" placeholder="+48"></label>
+      <label><span data-i18n="a_email">Email (optional)</span><input name="email" type="email" maxlength="120" autocomplete="email"></label>
+      <label><span data-i18n="a_city">City you live in</span><input name="current_city" maxlength="60" list="cityList"></label>
     </div>
-    <label>Your document status * <span>तपाईंको कागजात</span>
+    <label><span data-i18n="a_docstatus">Your documents</span> *
       <select name="doc_status" required>
-        <option value="">— choose · छान्नुहोस् —</option>
-        <option value="visa">Passport + visa</option>
-        <option value="trc">TRC (Karta pobytu)</option>
-        <option value="trc_applied">TRC applied (stamp / proof)</option>
-        <option value="other">Other</option>
+        <option value="" data-i18n="choose">Choose</option>
+        <option value="visa" data-i18n="doc_visa">Passport + visa</option>
+        <option value="trc" data-i18n="doc_trc_full">TRC (Karta pobytu)</option>
+        <option value="trc_applied" data-i18n="doc_trc_applied_full">TRC applied (stamp / proof)</option>
+        <option value="other" data-i18n="other">Other</option>
       </select>
     </label>
-    <label>Upload documents * <span>कागजात अपलोड</span>
+    <label><span data-i18n="a_upload">Upload documents</span> *
       <input name="docs" type="file" required multiple accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png">
-      <small class="muted">Passport page, visa / TRC, or TRC-applied proof. Up to 3 files, PDF/JPG/PNG, max 5 MB each.</small>
+      <small class="muted" data-i18n="a_upload_hint"></small>
     </label>
-    <label>Experience / message <span>अनुभव</span>
-      <textarea name="message" rows="3" maxlength="800" placeholder="e.g. 1 year warehouse experience, forklift licence…"></textarea>
-    </label>
-    <label class="check confirm"><input type="checkbox" name="consent" required>
-      I agree that Kam Ko Khoji stores my details and documents and shares them only with the employer for this job. I can ask for deletion any time. · मेरो विवरण यस कामको रोजगारदातासँग मात्र बाँडिनेमा म सहमत छु।
-    </label>
-    <button class="btn btn-dark" type="submit">Send application · पठाउनुहोस्</button>
+    <label><span data-i18n="a_msg">Experience (optional)</span><textarea name="message" rows="3" maxlength="800" data-i18n-ph="ph_msg"></textarea></label>
+    <label class="check confirm"><input type="checkbox" name="consent" required><span data-i18n="consent"></span></label>
+    <button class="btn btn-dark btn-block" type="submit" data-i18n="send_app">Send application</button>
   </form>
   <div id="applyDone" class="done" hidden>
     <div class="done-mark">✓</div>
-    <h3>Application sent! · आवेदन पठाइयो!</h3>
-    <p>We will contact you on your phone if the employer is interested. Remember: never pay money for a job.</p>
-    <button class="btn btn-dark" type="button" data-close>Close</button>
+    <h3 data-i18n="done_t">Application sent</h3>
+    <p data-i18n="done_d"></p>
+    <button class="btn btn-dark" type="button" data-close data-i18n="close">Close</button>
   </div>
 </dialog>
 
 <dialog id="privacyDialog" class="dialog small-dlg" aria-labelledby="privTitle">
   <button class="dlg-close" type="button" data-close aria-label="Close">×</button>
-  <h3 id="privTitle">Privacy · गोपनीयता</h3>
+  <h3 id="privTitle" data-i18n="privacy">Privacy</h3>
   <ul class="plain">
-    <li>We collect only what you type in the forms and the documents you upload.</li>
-    <li>Documents are stored in a private, encrypted storage. They are never shown on the website.</li>
-    <li>Your application is shared only with the employer of the job you applied to.</li>
-    <li>Applications and documents are deleted after 90 days, or earlier if you ask.</li>
-    <li>To see or delete your data, contact us using the details at the bottom of the page.</li>
+    <li data-i18n="p1"></li><li data-i18n="p2"></li><li data-i18n="p3"></li><li data-i18n="p4"></li><li data-i18n="p5"></li>
   </ul>
 </dialog>
 
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<script src="config.js?v=3"></script>
+<script src="config.js?v=6"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="app.js?v=3"></script>
+<script src="app.js?v=6"></script>
 </body>
 </html>

@@ -83,6 +83,12 @@ create policy "admins manage applications" on public.applications
 revoke select, update, delete on public.applications from anon;
 grant insert on public.applications to anon;
 
+-- Logged-in admins (rules above still check is_admin)
+grant usage on schema public to anon, authenticated;
+grant select, insert, update, delete on public.jobs, public.applications to authenticated;
+grant select on public.admins to authenticated;
+grant execute on function public.is_admin() to anon, authenticated;
+
 -- 4) Private document storage -----------------------------------------
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values ('documents', 'documents', false, 5242880, array['application/pdf','image/jpeg','image/png'])

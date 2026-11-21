@@ -6,8 +6,8 @@
 //  it shows sample jobs and does not save anything.
 // ============================================================
 window.KKK_CONFIG = {
-  SUPABASE_URL: "",        // e.g. "https://abcd1234.supabase.co"
-  SUPABASE_ANON_KEY: "",   // the "anon public" key — safe to put on a public site
+  SUPABASE_URL: "https://yjndbvcyuixqgcghvorc.supabase.co",
+  SUPABASE_ANON_KEY: "sb_publishable_fbJv624kBmPfzViwyHW7pw_SSLuchBi",   // publishable key — safe on a public site
 
   // Optional contact details shown on the site
   WHATSAPP: "",            // your number with country code, no + or spaces, e.g. "48123456789"

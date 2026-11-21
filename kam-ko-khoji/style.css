@@ -157,3 +157,47 @@ legend{font-weight:700;padding:0 .3rem}
   .dialog{padding:1.1rem}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* ===== Animated hero ===== */
+.hero{isolation:isolate;padding-bottom:calc(clamp(2.5rem,6vw,4rem) + 46px)}
+.hero>*:not(.hero-bg):not(.ticker){position:relative;z-index:2}
+.hero-bg{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.hero-grid{position:absolute;inset:-48px;background-image:linear-gradient(rgba(17,17,17,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(17,17,17,.07) 1px,transparent 1px);background-size:48px 48px;animation:gridMove 18s linear infinite;-webkit-mask-image:radial-gradient(ellipse 70% 65% at 50% 45%,#000 35%,transparent 80%);mask-image:radial-gradient(ellipse 70% 65% at 50% 45%,#000 35%,transparent 80%)}
+@keyframes gridMove{to{transform:translate(48px,48px)}}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.6;will-change:transform}
+.b1{width:420px;height:420px;background:#fff7cf;top:-120px;left:-80px;animation:drift1 16s ease-in-out infinite alternate}
+.b2{width:380px;height:380px;background:#ffb300;bottom:-140px;right:-60px;opacity:.5;animation:drift2 19s ease-in-out infinite alternate}
+.b3{width:260px;height:260px;background:#fff;top:30%;left:55%;opacity:.35;animation:drift1 22s ease-in-out infinite alternate-reverse}
+@keyframes drift1{to{transform:translate(120px,80px) scale(1.15)}}
+@keyframes drift2{to{transform:translate(-140px,-60px) scale(1.1)}}
+
+.float-layer{position:absolute;inset:0}
+.fcard{position:absolute;display:flex;align-items:center;gap:.55rem;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:.5rem .8rem;box-shadow:0 4px 0 var(--ink);font-size:.86rem;line-height:1.2;max-width:240px;opacity:0;animation:cardIn .8s ease forwards,floaty 7s ease-in-out infinite}
+.fcard .ic{flex:none;width:30px;height:30px;border-radius:9px;background:var(--yellow);border:1.5px solid var(--ink);display:grid;place-items:center;font-weight:800;font-size:.8rem}
+.fcard b{display:block;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px}
+.fcard small{color:var(--muted);white-space:nowrap}
+.fcard .pay{display:inline-block;margin-top:.15rem;font-size:.72rem;font-weight:700;background:var(--green-soft);color:var(--green);border-radius:5px;padding:0 .4rem}
+@keyframes floaty{0%,100%{translate:0 0}50%{translate:0 -14px}}
+@keyframes cardIn{to{opacity:.95}}
+
+.live-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--red);margin-right:.45rem;vertical-align:middle;box-shadow:0 0 0 0 rgba(212,33,61,.6);animation:pulse 1.8s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(212,33,61,0)}100%{box-shadow:0 0 0 0 rgba(212,33,61,0)}}
+
+/* entrance */
+.hero .eyebrow,.hero .title-ne,.hero .title-en,.hero .search,.hero .hero-stats,.hero #registerBtn{animation:fadeUp .8s cubic-bezier(.2,.7,.2,1) both}
+.hero .title-ne{animation-delay:.08s}.hero .title-en{animation-delay:.16s}.hero .search{animation-delay:.26s}.hero .hero-stats{animation-delay:.36s}.hero #registerBtn{animation-delay:.44s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.search{transition:transform .2s,box-shadow .2s}
+.search:focus-within{transform:translateY(-2px);box-shadow:0 7px 0 var(--ink)}
+
+/* ticker */
+.ticker{position:absolute;left:0;right:0;bottom:0;z-index:2;background:var(--ink);color:#fff;overflow:hidden;height:46px;display:flex;align-items:center;border-top:3px solid var(--ink)}
+.ticker-track{display:flex;gap:2.5rem;white-space:nowrap;width:max-content;animation:tick 40s linear infinite;padding-left:2.5rem;font-size:.95rem}
+.ticker:hover .ticker-track{animation-play-state:paused}
+.ticker-track span b{color:var(--yellow)}
+.ticker-track .sep{color:var(--yellow)}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+@media (max-width:1100px){.fcard.side-inner{display:none}}
+@media (max-width:860px){.fcard{display:none}.b1{width:280px;height:280px}.b2{width:260px;height:260px}}
+@media (prefers-reduced-motion:reduce){.hero-grid,.blob,.fcard,.ticker-track,.live-dot,.hero *{animation:none!important}.fcard{opacity:.95}}

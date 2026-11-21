@@ -77,7 +77,57 @@
     }
     fillCities();
     render();
+    buildHeroFx();
     openFromHash();
+  }
+
+  // ---------- animated hero ----------
+  const ICONS = { factory: 'F', warehouse: 'W', food: 'K', cleaning: 'C', construction: 'B', driver: 'D', hotel: 'H', other: '★' };
+  function buildHeroFx() {
+    const src = jobs.length ? jobs : DEMO;
+    const INFO = [
+      { info: true, ic: '✓', t: 'Every job checked', s: 'Safe · सुरक्षित' },
+      { info: true, ic: '0', t: '0 zł fee for workers', s: 'कुनै शुल्क छैन' },
+      { info: true, ic: '⚡', t: 'Apply in 2 minutes', s: 'Passport · Visa · TRC' },
+      { info: true, ic: '⌂', t: 'Jobs with accommodation', s: 'बस्ने ठाउँ सहित' }
+    ];
+    const real = src.slice(0, 4);
+    const pool = [];
+    // mix: job, info, job, info… so real jobs are never repeated
+    for (let i = 0, a = 0, b = 0; pool.length < 6; i++) {
+      if ((i % 2 === 0 && a < real.length) || b >= INFO.length) pool.push(real[a++] || INFO[b++]);
+      else pool.push(INFO[b++]);
+    }
+    const spots = [
+      { l: '3%', t: '16%', d: 0 }, { l: '6%', t: '48%', d: 1.2, inner: true }, { l: '2%', t: '74%', d: 2.4 },
+      { r: '3%', t: '14%', d: .6 }, { r: '6%', t: '46%', d: 1.8, inner: true }, { r: '2%', t: '72%', d: 3 }
+    ];
+    $('#floatLayer').innerHTML = spots.map((p, i) => {
+      const j = pool[i];
+      const posX = `${p.l ? 'left:' + p.l : 'right:' + p.r};top:${p.t};animation-delay:${p.d * .4}s,${p.d}s`;
+      if (j.info) return `<div class="fcard${p.inner ? ' side-inner' : ''}" style="${posX}"><span class="ic">${j.ic}</span><span><b>${j.t}</b><small>${j.s}</small></span></div>`;
+      const pos = `${p.l ? 'left:' + p.l : 'right:' + p.r};top:${p.t};animation-delay:${p.d * .4}s,${p.d}s`;
+      const pay = (j.salary || '').split('(')[0].trim();
+      return `<div class="fcard${p.inner ? ' side-inner' : ''}" style="${pos}">
+        <span class="ic">${ICONS[j.category] || '★'}</span>
+        <span><b>${esc(j.title.split('(')[0].trim())}</b><small>${esc(j.city)}</small>${pay ? `<br><span class="pay">${esc(pay)}</span>` : ''}</span>
+      </div>`;
+    }).join('');
+
+    const items = src.map(j => `<span><span class="sep">●</span> <b>NEW</b> ${esc(j.title.split('(')[0].trim())} — ${esc(j.city)}${j.salary ? ' · ' + esc(j.salary.split('(')[0].trim()) : ''}</span>`);
+    items.push('<span><span class="sep">●</span> <b>0 zł</b> fee for workers · कामदारलाई शुल्क छैन</span>',
+               '<span><span class="sep">●</span> Every job is <b>checked</b> before it goes live</span>');
+    const row = items.join('');
+    $('#tickerTrack').innerHTML = row + row; // doubled for a seamless loop
+  }
+
+  // rotating search hint
+  function rotatePlaceholder() {
+    const hints = ['Search · खोज्नुहोस्  (warehouse, sushi, Wrocław…)', 'Try: “warehouse Łódź”', 'Try: “kitchen Warsaw”', 'Try: “TRC applied”', 'काम खोज्नुहोस् — factory, hotel, cleaning…'];
+    let i = 0;
+    const input = $('#q');
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    setInterval(() => { if (document.activeElement !== input && !input.value) input.placeholder = hints[++i % hints.length]; }, 3200);
   }
 
   function fillCities() {
@@ -92,11 +142,15 @@
   }
 
   // ---------- render ----------
+  // Accent-free, English-friendly search (Warsaw = Warszawa, Lodz = Łódź…)
+  const norm = s => String(s || '').toLowerCase().replace(/ł/g, 'l').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  const ALIASES = { warsaw: 'warszawa', cracow: 'krakow', breslau: 'wroclaw', danzig: 'gdansk', posen: 'poznan',
+    kitchen: 'food', restaurant: 'food', sushi: 'sushi', packing: 'packing', magazyn: 'warehouse', fabryka: 'factory' };
   function matches(j) {
-    const q = f.q.trim().toLowerCase();
+    const q = norm(f.q).trim();
     if (q) {
-      const hay = `${j.title} ${j.company} ${j.city} ${j.description} ${(CATS[j.category] || []).join(' ')}`.toLowerCase();
-      if (!q.split(/\s+/).every(w => hay.includes(w))) return false;
+      const hay = norm(`${j.title} ${j.company} ${j.city} ${j.description} ${j.category} ${(CATS[j.category] || []).join(' ')} ${(j.docs_accepted || []).map(d => DOCS[d]).join(' ')} ${j.accommodation ? 'accommodation' : ''}`);
+      if (!q.split(/\s+/).every(w => hay.includes(w) || (ALIASES[w] && hay.includes(ALIASES[w])))) return false;
     }
     if (f.city && j.city !== f.city) return false;
     if (f.cat && j.category !== f.cat) return false;
@@ -378,5 +432,6 @@
 
   buildChips();
   bind();
+  rotatePlaceholder();
   loadJobs();
 })();
